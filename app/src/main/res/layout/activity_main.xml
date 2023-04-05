@@ -36,22 +36,44 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_width="275dp"
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
+                            android:layout_width="274dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/white_background"
-                            android:hint="hint" />
+                            android:hint="Add Child Profile.." />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="66dp"
                         android:layout_height="match_parent">
 
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/icons8_bell_24" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="66dp"
+                        android:layout_height="match_parent">
 
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/icons8_user_30" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

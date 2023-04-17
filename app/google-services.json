@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "352359755094",
+    "project_id": "smart-nutrimo",
+    "storage_bucket": "smart-nutrimo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352359755094:android:70b0c621dcd64adaa03af7",
+        "android_client_info": {
+          "package_name": "id.ac.umn.nutrimo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352359755094-8hhm2bp5jitiq76ovv08q94l9q39hcrn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrv_SEWDZq4_Uu01AR6sHhrLxVaVvIHO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352359755094-8hhm2bp5jitiq76ovv08q94l9q39hcrn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

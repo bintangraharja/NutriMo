@@ -1,14 +1,23 @@
 package id.ac.umn.nutrimo.article;
 
 public class ArticleModel {
-    String image, title;
+    String image, title, url;
 
     public ArticleModel() {
     }
 
-    public ArticleModel(String image, String title) {
+    public ArticleModel(String image, String title, String url) {
         this.image = image;
         this.title = title;
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getImage() {

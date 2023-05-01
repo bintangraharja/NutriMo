@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        artikelSlider = (ImageSlider) findViewById(R.id.artikelSlider);
+        artikelSlider = findViewById(R.id.artikelSlider);
         final List<SlideModel> sliderArticle = new ArrayList<>();
 
         FirebaseDatabase.getInstance().getReference().child("Slider").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
                 artikelSlider.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onItemSelected(int i) {
-                        Toast.makeText(getApplicationContext(),"Test",Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
                     }
                 });
 

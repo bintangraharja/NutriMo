@@ -14,6 +14,9 @@
         android:theme="@style/Theme.NutriMo"
         tools:targetApi="25">
         <activity
+            android:name=".menu.MenuDetail"
+            android:exported="false" />
+        <activity
             android:name=".menu.Menu"
             android:exported="false" />
         <activity

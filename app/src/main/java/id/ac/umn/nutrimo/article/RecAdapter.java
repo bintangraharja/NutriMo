@@ -30,7 +30,7 @@ public class RecAdapter extends FirebaseRecyclerAdapter<ArticleModel, RecAdapter
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity=(AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.articleWrapper, new detailArticle(model.getImage(),model.getTitle())).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.articleWrapper, new detailArticle(model.getUrl())).addToBackStack(null).commit();
             }
         });
     }

@@ -37,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        if( user == null)
-        {
-            Intent intent = new Intent(getApplicationContext(),Login.class);
-            startActivity(intent);
-            finish();
-        }
+//        if( user == null)
+//        {
+//            Intent intent = new Intent(getApplicationContext(),Login.class);
+//            startActivity(intent);
+//            finish();
+//        }
         setting = findViewById(R.id.setting);
         setting.setOnClickListener(new View.OnClickListener() {
             @Override

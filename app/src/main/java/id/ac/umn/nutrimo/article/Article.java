@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import id.ac.umn.nutrimo.MainActivity;
+import id.ac.umn.nutrimo.Setting;
 import id.ac.umn.nutrimo.menu.Menu;
 import id.ac.umn.nutrimo.R;
 
@@ -37,7 +38,6 @@ public class Article extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
-
 
         getSupportFragmentManager().beginTransaction().replace(R.id.articleWrapper,new recfragment()).commit();
 
@@ -71,5 +71,13 @@ public class Article extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onBackPressed(){
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
 }

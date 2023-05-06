@@ -12,6 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -77,8 +78,9 @@ public class detailArticle extends Fragment {
 
 
 
-    public void onBackPresseed(){
+    public void onBackPressed(){
         AppCompatActivity activity=(AppCompatActivity) getContext();
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.articleWrapper, new recfragment()).addToBackStack(null).commit();
+
     }
 }

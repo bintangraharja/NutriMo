@@ -1,7 +1,9 @@
 package id.ac.umn.nutrimo.article;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 
+import id.ac.umn.nutrimo.MainActivity;
 import id.ac.umn.nutrimo.R;
 
 
@@ -73,4 +77,7 @@ public class recfragment extends Fragment {
         super.onStop();
         adapter.stopListening();
     }
+
+
+
 }

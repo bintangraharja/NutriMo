@@ -18,11 +18,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
     EditText email_reg, password_reg;
     Button btn_reg;
     FirebaseAuth mAuth;
+    FirebaseUser user;
     ProgressBar progressBar;
     TextView login;
     @Override
@@ -78,9 +81,16 @@ public class Register extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
+                                    user = mAuth.getCurrentUser();
+
+                                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                                    mDatabase.child("Users").child(user.getUid()).child("username").setValue("test");
                                     // Sign in success, update UI with the signed-in user's information
                                     Toast.makeText(Register.this, "Account Created",
                                             Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
                                 } else {
                                     // If sign in fails, display a message to the user.
 
@@ -93,5 +103,9 @@ public class Register extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
     }
 }

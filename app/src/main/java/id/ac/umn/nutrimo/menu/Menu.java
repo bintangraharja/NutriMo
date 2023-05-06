@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso;
 
 import id.ac.umn.nutrimo.MainActivity;
 import id.ac.umn.nutrimo.R;
+import id.ac.umn.nutrimo.Setting;
 import id.ac.umn.nutrimo.article.Article;
 
 public class Menu extends AppCompatActivity {
@@ -108,5 +109,11 @@ public class Menu extends AppCompatActivity {
             menuName = itemView.findViewById(R.id.menuName);
             menuImage = itemView.findViewById(R.id.menuImg);
         }
+    }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

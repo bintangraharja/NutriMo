@@ -14,6 +14,9 @@
         android:theme="@style/Theme.NutriMo"
         tools:targetApi="25">
         <activity
+            android:name=".periksa.Periksa"
+            android:exported="false" />
+        <activity
             android:name=".AddChildProfile"
             android:exported="false" />
         <activity

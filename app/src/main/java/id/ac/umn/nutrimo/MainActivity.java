@@ -1,9 +1,11 @@
 package id.ac.umn.nutrimo;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +32,14 @@ import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,16 +47,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.Tag;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import id.ac.umn.nutrimo.article.Article;
 import id.ac.umn.nutrimo.menu.Menu;
-import id.ac.umn.nutrimo.menu.MenuDetail;
-import id.ac.umn.nutrimo.menu.MenuModel;
+import id.ac.umn.nutrimo.periksa.HAZDao;
+import id.ac.umn.nutrimo.periksa.HazEntity;
+import id.ac.umn.nutrimo.periksa.Periksa;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
@@ -55,18 +64,30 @@ public class MainActivity extends AppCompatActivity {
     ImageSlider artikelSlider;
     Button children;
     RecyclerView child_rv;
-    String activeChildId;
+    String activeChildId,gender;
+    LineChart graphMain;
+    RoomDB db;
+    HAZDao hazDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        RoomDB db = RoomDB.getInstance(getApplicationContext());
+        hazDao = db.hazDao();
+
         children = findViewById(R.id.childrenProfile);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+        graphMain = findViewById(R.id.graphMain);
+        Intent intent = getIntent();
+        activeChildId = intent.getStringExtra("Child");
+        Toast.makeText(this,String.valueOf(activeChildId),Toast.LENGTH_SHORT).show();
         if( user != null)
         {
             changeActiveChild();
         }
+
         children.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +106,10 @@ public class MainActivity extends AppCompatActivity {
         periksa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), Periksa.class);
+                intent.putExtra("Child",activeChildId);
+                startActivity(intent);
+                finish();
             }
         });
         artikel = findViewById(R.id.artikel);
@@ -93,7 +117,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Article.class);
+                intent.putExtra("Child",activeChildId);
                 startActivity(intent);
+
             }
         });
         menu = findViewById(R.id.menu);
@@ -101,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Menu.class);
+                intent.putExtra("Child",activeChildId);
                 startActivity(intent);
                 finish();
             }
@@ -206,25 +233,29 @@ public class MainActivity extends AppCompatActivity {
     }
     public void changeActiveChild(){
         DatabaseReference mRef=  FirebaseDatabase.getInstance().getReference().child("Childs").child(user.getUid());
+
         if(activeChildId == null){
             mRef.limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     ChildModel chi = new ChildModel();
-                    for(DataSnapshot childs: snapshot.getChildren()){
-                        chi = childs.getValue(ChildModel.class);
-                        activeChildId = childs.getKey();
-                    }
-                    children.setText(chi.getName());
-                    Log.d("DEbug","Child ID:"+activeChildId);
-                    if(chi.getGender().toString().equals("Perempuan")){
-                        Drawable img = getApplicationContext().getResources().getDrawable(R.drawable.girl_32);
-                        children.setCompoundDrawablesWithIntrinsicBounds(img,null,null,null);
-                    }else{
-                        Drawable img = getApplicationContext().getResources().getDrawable(R.drawable.boy_32);
-                        children.setCompoundDrawablesWithIntrinsicBounds(img,null,null,null);
+                    if(snapshot.hasChildren()){
+                        for(DataSnapshot childs: snapshot.getChildren()){
+                            chi = childs.getValue(ChildModel.class);
+                            activeChildId = childs.getKey();
+                        }
+                        children.setText(chi.getName());
+                        gender = chi.getGender().toString();
+                        if(gender.equals("Perempuan")){
+                            Drawable img = getApplicationContext().getResources().getDrawable(R.drawable.girl_32);
+                            children.setCompoundDrawablesWithIntrinsicBounds(img,null,null,null);
+                        }else{
+                            Drawable img = getApplicationContext().getResources().getDrawable(R.drawable.boy_32);
+                            children.setCompoundDrawablesWithIntrinsicBounds(img,null,null,null);
 
+                        }
                     }
+                    drawGraph();
                 }
 
                 @Override
@@ -241,8 +272,9 @@ public class MainActivity extends AppCompatActivity {
                         chi = childs.getValue(ChildModel.class);
                     }
                     children.setText(chi.getName());
-                    Log.d("DEbug","Child ID:"+activeChildId);
-                    if(chi.getGender().toString().equals("Perempuan")){
+                    Log.d("DEbug","Child IDsss:"+activeChildId);
+                    gender = chi.getGender().toString();
+                    if(gender.equals("Perempuan")){
                         Drawable img = getApplicationContext().getResources().getDrawable(R.drawable.girl_32);
                         children.setCompoundDrawablesWithIntrinsicBounds(img,null,null,null);
                     }else{
@@ -250,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
                         children.setCompoundDrawablesWithIntrinsicBounds(img,null,null,null);
 
                     }
+                    drawGraph();
                 }
 
                 @Override
@@ -258,7 +291,94 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
         //Update Grafik
+
     }
+    private void drawGraph(){
+        if(activeChildId == null){
+            graphMain.setNoDataText("Pilih Profik Anak");
+            graphMain.setNoDataTextColor(Color.BLACK);
+            graphMain.setBackgroundColor(Color.parseColor("#9DC08B"));
+            graphMain.invalidate();
+            return;
+        }
+        List<HazEntity> listHaz = hazDao.getHazByGender(gender);
+        if (listHaz == null) {
+            return;
+        }
+        ArrayList<Entry> nsd3 = new ArrayList<Entry>();
+        ArrayList<Entry> nsd2 = new ArrayList<Entry>();
+        ArrayList<Entry> nsd1 = new ArrayList<Entry>();
+        ArrayList<Entry> median = new ArrayList<Entry>();
+        ArrayList<Entry> psd1 = new ArrayList<Entry>();
+        ArrayList<Entry> psd2 = new ArrayList<Entry>();
+        ArrayList<Entry> psd3 = new ArrayList<Entry>();
+
+        for(HazEntity haz : listHaz){
+            nsd3.add(new Entry(haz.getUsia(),(float) haz.getNsd3()));
+            nsd2.add(new Entry(haz.getUsia(),(float) haz.getNsd2()));
+            nsd1.add(new Entry(haz.getUsia(),(float) haz.getNsd1()));
+            median.add(new Entry(haz.getUsia(),(float) haz.getMedian()));
+            psd1.add(new Entry(haz.getUsia(),(float) haz.getPsd1()));
+            psd2.add(new Entry(haz.getUsia(),(float) haz.getPsd2()));
+            psd3.add(new Entry(haz.getUsia(),(float) haz.getPsd3()));
+        }
+        //add history
+
+        //Input to Graph
+        LineDataSet line1 = new LineDataSet(nsd3,"-3 SD");
+        line1.setDrawCircles(false);
+        line1.setColor(Color.parseColor("#7d120a"));
+        LineDataSet line2 = new LineDataSet(nsd2,"-2 SD");
+        line2.setDrawCircles(false);
+        line2.setColor(Color.parseColor("#8a3c0b"));
+        LineDataSet line3 = new LineDataSet(nsd1,"-1 SD");
+        line3.setDrawCircles(false);
+        line3.setColor(Color.parseColor("#736f0e"));
+        LineDataSet line4 = new LineDataSet(median,"Median");
+        line4.setDrawCircles(false);
+        line4.setColor(Color.GREEN);
+        LineDataSet line5 = new LineDataSet(psd1,"+1 SD");
+        line5.setDrawCircles(false);
+        line5.setColor(Color.parseColor("#736f0e"));
+        LineDataSet line6 = new LineDataSet(psd2,"+2 SD");
+        line6.setColor(Color.parseColor("#8a3c0b"));
+        line6.setDrawCircles(false);
+        LineDataSet line7 = new LineDataSet(psd3,"+3 SD");
+        line7.setDrawCircles(false);
+        line7.setColor(Color.parseColor("#7d120a"));
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(line1);
+        dataSets.add(line2);
+        dataSets.add(line3);
+        dataSets.add(line4);
+        dataSets.add(line5);
+        dataSets.add(line6);
+        dataSets.add(line7);
+
+        LineData data = new LineData(dataSets);
+        data.setDrawValues(false);
+        graphMain.setData(data);
+        graphMain.getAxisLeft().setDrawGridLines(false);
+        graphMain.getXAxis().setDrawGridLines(false);
+        graphMain.setDrawGridBackground(false);
+        graphMain.setTouchEnabled(true);
+        graphMain.setPinchZoom(true);
+        graphMain.setDragEnabled(true);
+        graphMain.setScaleEnabled(true);
+        graphMain.setVisibleXRange(0f, 4f);
+        graphMain.moveViewToX(0);
+        graphMain.setVisibleYRangeMinimum(0f,YAxis.AxisDependency.LEFT);
+        graphMain.setVisibleYRangeMaximum(20f,YAxis.AxisDependency.LEFT);
+        graphMain.getAxisLeft().setAxisMinimum(45f);
+        graphMain.getAxisLeft().setAxisMaximum(110f);
+
+        graphMain.getXAxis().setGranularity(3f);
+        graphMain.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        graphMain.invalidate();
+
+        }
 }
 

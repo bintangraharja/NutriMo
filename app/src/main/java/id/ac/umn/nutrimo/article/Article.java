@@ -30,24 +30,29 @@ import id.ac.umn.nutrimo.MainActivity;
 import id.ac.umn.nutrimo.Setting;
 import id.ac.umn.nutrimo.menu.Menu;
 import id.ac.umn.nutrimo.R;
+import id.ac.umn.nutrimo.periksa.Periksa;
 
 public class Article extends AppCompatActivity {
     ImageView beranda,periksa,menu;
-
+    String activeChildId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.articleWrapper,new recfragment()).commit();
-
+        Intent intent = getIntent();
+        activeChildId = intent.getStringExtra("Child");
 
 
         periksa = findViewById(R.id.periksa);
         periksa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), Periksa.class);
+                intent.putExtra("Child",activeChildId);
+                startActivity(intent);
+                finish();
             }
         });
         menu = findViewById(R.id.menu);
@@ -55,6 +60,7 @@ public class Article extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Menu.class);
+                intent.putExtra("Child",activeChildId);
                 startActivity(intent);
                 finish();
             }
@@ -64,6 +70,7 @@ public class Article extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("Child",activeChildId);
                 startActivity(intent);
                 finish();
             }

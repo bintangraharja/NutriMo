@@ -42,6 +42,7 @@ public class Setting extends AppCompatActivity {
                     FirebaseAuth.getInstance().signOut();
                     Toast.makeText(getApplicationContext(),"logout",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("Child", (String) null);
                     startActivity(intent);
                     finish();
                 }

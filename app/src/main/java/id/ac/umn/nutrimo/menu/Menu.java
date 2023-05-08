@@ -23,17 +23,20 @@ import id.ac.umn.nutrimo.MainActivity;
 import id.ac.umn.nutrimo.R;
 import id.ac.umn.nutrimo.Setting;
 import id.ac.umn.nutrimo.article.Article;
+import id.ac.umn.nutrimo.periksa.Periksa;
 
 public class Menu extends AppCompatActivity {
     ImageView beranda,periksa,artikel;
     RecyclerView menu_rv;
     MenuAdapter menuAdapter;
     DatabaseReference menuRef;
+    String activeChildId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
+        Intent intent = getIntent();
+        activeChildId = intent.getStringExtra("Child");
         menuRef = FirebaseDatabase.getInstance().getReference().child("Menu");
         menu_rv = findViewById(R.id.menu_rv);
         menu_rv.setLayoutManager(new GridLayoutManager(this,2));
@@ -41,7 +44,10 @@ public class Menu extends AppCompatActivity {
         periksa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), Periksa.class);
+                intent.putExtra("Child",activeChildId);
+                startActivity(intent);
+                finish();
             }
         });
         artikel = findViewById(R.id.artikel);
@@ -49,6 +55,7 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Article.class);
+                intent.putExtra("Child",activeChildId);
                 startActivity(intent);
                 finish();
             }
@@ -58,6 +65,7 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("Child",activeChildId);
                 startActivity(intent);
                 finish();
             }

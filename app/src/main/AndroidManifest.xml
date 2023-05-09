@@ -12,7 +12,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.NutriMo"
-        tools:targetApi="25">
+        tools:targetApi="26">
+        <activity
+            android:name=".periksa.detailHistory"
+            android:exported="false"/>
+        <activity
+            android:name=".periksa.NewHistory"
+            android:exported="false" />
         <activity
             android:name=".periksa.Periksa"
             android:exported="false" />

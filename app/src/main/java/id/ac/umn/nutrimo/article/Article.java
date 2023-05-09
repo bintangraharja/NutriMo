@@ -33,7 +33,7 @@ import id.ac.umn.nutrimo.R;
 import id.ac.umn.nutrimo.periksa.Periksa;
 
 public class Article extends AppCompatActivity {
-    ImageView beranda,periksa,menu;
+    ImageView beranda,periksa,menu,artikel;
     String activeChildId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,16 @@ public class Article extends AppCompatActivity {
         Intent intent = getIntent();
         activeChildId = intent.getStringExtra("Child");
 
-
+        artikel = findViewById(R.id.artikel);
+        artikel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Article.class);
+                intent.putExtra("Child",activeChildId);
+                startActivity(intent);
+                finish();
+            }
+        });
         periksa = findViewById(R.id.periksa);
         periksa.setOnClickListener(new View.OnClickListener() {
             @Override

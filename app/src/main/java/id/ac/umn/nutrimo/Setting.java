@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,6 +16,7 @@ public class Setting extends AppCompatActivity {
     AppCompatButton logout, about, profil;
     FirebaseAuth auth;
     FirebaseUser user;
+    ImageButton back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,13 @@ public class Setting extends AppCompatActivity {
                 }
             });
         }
+        back = findViewById(R.id.backMain);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
     @Override
     public void onBackPressed() {

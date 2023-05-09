@@ -12,5 +12,11 @@ public interface HAZDao {
     LiveData<List<HazEntity>> getAllHAZ();
     @Query("SELECT * FROM HAZ WHERE gender IS :gender ")
     List<HazEntity> getHazByGender(String gender);
+    @Query("SELECT median FROM HAZ WHERE usia IS :umur AND gender IS :gender")
+    Double getMedian(int umur, String gender);
+    @Query("SELECT nsd1 FROM HAZ WHERE usia IS :umur AND gender IS :gender")
+    Double getNsdp1(int umur, String gender);
+    @Query("SELECT psd1 FROM HAZ WHERE usia IS :umur AND gender IS :gender")
+    Double getPsd1(int umur, String gender);
 
 }

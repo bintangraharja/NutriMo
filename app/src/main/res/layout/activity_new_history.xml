@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".periksa.NewHistory">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/backPeriksa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            app:srcCompat="@drawable/icons8_left_arrow_32" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="30dp">
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Periksa Tumbuh Kembang Anak"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Lengkap"
+                    android:gravity="start"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:layout_marginTop="10dp" />
+                <EditText
+                    android:id="@+id/childName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Anak"
+                    android:textSize="16dp"
+                    android:enabled="false"/>
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jenis Kelamin"
+                    android:gravity="start"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:layout_marginTop="10dp" />
+                <EditText
+                    android:id="@+id/childGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jenis Kelamin"
+                    android:textSize="16dp"
+                    android:enabled="false"/>
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tanggal Periksa"
+                    android:gravity="start"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:layout_marginTop="10dp" />
+                <EditText
+                    android:id="@+id/dateToday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Masukkan tanggal periksa"
+                    android:textSize="16dp"/>
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Berat Saat Ini (Kg)"
+                    android:gravity="start"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:layout_marginTop="10dp" />
+                <EditText
+                    android:id="@+id/weightToday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Masukkan berat"
+                    android:inputType="numberDecimal"
+                    android:textSize="16dp"/>
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tinggi Saat Ini (Cm)"
+                    android:gravity="start"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:layout_marginTop="10dp" />
+                <EditText
+                    android:id="@+id/heightToday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Masukkan tinggi"
+                    android:textSize="16dp"
+                    android:inputType="numberDecimal"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/saveHistory"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Simpan"
+                    android:textAlignment="center"
+                    android:background="@drawable/child_bkg"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp"/>
+
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,7 @@ import id.ac.umn.nutrimo.periksa.HazEntity;
 import id.ac.umn.nutrimo.periksa.WHZDao;
 import id.ac.umn.nutrimo.periksa.WhzEntity;
 
-@Database(entities = {HazEntity.class, WhzEntity.class}, version = 1)
+@Database(entities = {HazEntity.class, WhzEntity.class}, version = 2)
 public abstract class RoomDB extends RoomDatabase {
     public abstract HAZDao hazDao();
     public abstract WHZDao whzDao();

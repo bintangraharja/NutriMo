@@ -24,7 +24,7 @@ public class HazEntity {
     private double nsd2;
 
     @ColumnInfo(name = "nsd1")
-    private int nsd1;
+    private double nsd1;
 
     @ColumnInfo(name = "median")
     private double median;
@@ -36,9 +36,9 @@ public class HazEntity {
     private double psd2;
 
     @ColumnInfo(name = "psd3")
-    private int psd3;
+    private double psd3;
 
-    public HazEntity(String gender, int usia, double nsd3, double nsd2, int nsd1, double median, double psd1, double psd2, int psd3) {
+    public HazEntity(String gender, int usia, double nsd3, double nsd2, double nsd1, double median, double psd1, double psd2, double psd3) {
         this.gender = gender;
         this.usia = usia;
         this.nsd3 = nsd3;
@@ -90,7 +90,7 @@ public class HazEntity {
         this.nsd2 = nsd2;
     }
 
-    public int getNsd1() {
+    public double getNsd1() {
         return nsd1;
     }
 
@@ -122,7 +122,7 @@ public class HazEntity {
         this.psd2 = psd2;
     }
 
-    public int getPsd3() {
+    public double getPsd3() {
         return psd3;
     }
 

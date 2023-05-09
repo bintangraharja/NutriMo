@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +40,13 @@ public class MenuDetail extends AppCompatActivity {
         title = findViewById(R.id.nameMenu);
         cook = findViewById(R.id.cookMenu);
         item = findViewById(R.id.itemMenu);
+        back = findViewById(R.id.backMenu);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         RetrieveMenuDetail();
 

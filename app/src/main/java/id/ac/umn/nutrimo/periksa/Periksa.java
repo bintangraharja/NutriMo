@@ -66,10 +66,12 @@ public class Periksa extends AppCompatActivity {
         setContentView(R.layout.activity_periksa);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();
+            return;
         }
         Intent intent = getIntent();
         activeChildId = intent.getStringExtra("Child");

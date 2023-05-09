@@ -230,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeActiveChild() {
         if (user == null) {
+            drawGraph();
             return;
         }
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("Childs").child(user.getUid());
@@ -300,6 +301,13 @@ public class MainActivity extends AppCompatActivity {
         graphMain.setBackgroundColor(Color.parseColor("#9DC08B"));
         graphMain.getDescription().setEnabled(false);
 
+        if(user == null){
+            graphMain.clear();
+            graphMain.setNoDataText("Silahkan Login");
+            graphMain.setNoDataTextColor(Color.BLACK);
+            graphMain.invalidate();
+            return;
+        }
         if (activeChildId == null) {
             graphMain.clear();
             graphMain.setNoDataText("Pilih Profik Anak");
@@ -307,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
             graphMain.invalidate();
             return;
         }
+
         List<HazEntity> listHaz = hazDao.getHazByGender(gender);
         if (listHaz == null) {
             return;

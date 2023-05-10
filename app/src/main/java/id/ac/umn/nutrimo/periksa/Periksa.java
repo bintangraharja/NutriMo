@@ -199,6 +199,11 @@ public class Periksa extends AppCompatActivity {
     @Override
     protected  void onResume(){
         super.onResume();
+        if (user == null) {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+        }
         updateDataAndGraph();
     }
     @Override

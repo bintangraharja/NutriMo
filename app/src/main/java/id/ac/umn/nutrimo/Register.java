@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class Register extends AppCompatActivity {
     FirebaseUser user;
     ProgressBar progressBar;
     TextView login;
+    ImageView back;
     @Override
     public void onStart() {
         super.onStart();
@@ -48,6 +50,15 @@ public class Register extends AppCompatActivity {
         password_reg = findViewById(R.id.password_reg);
         btn_reg = findViewById(R.id.btn_reg);
         progressBar = findViewById(R.id.progressBar);
+        back = findViewById(R.id.backLogin);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         login = findViewById(R.id.login_acc);
 
         login.setOnClickListener(new View.OnClickListener() {

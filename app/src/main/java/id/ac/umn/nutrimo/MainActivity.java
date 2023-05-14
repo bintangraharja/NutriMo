@@ -4,6 +4,7 @@ package id.ac.umn.nutrimo;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -30,7 +32,6 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -44,12 +45,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import id.ac.umn.nutrimo.article.Article;
 import id.ac.umn.nutrimo.menu.Menu;
+import id.ac.umn.nutrimo.menu.MenuDetail;
+import id.ac.umn.nutrimo.menu.MenuModel;
 import id.ac.umn.nutrimo.periksa.HAZDao;
 import id.ac.umn.nutrimo.periksa.HazEntity;
 import id.ac.umn.nutrimo.periksa.HistoryModel;
@@ -61,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView setting, periksa, artikel, menu;
     ImageSlider artikelSlider;
     Button children;
-    RecyclerView child_rv;
+    RecyclerView child_rv,menuUtama;
     String activeChildId, gender;
     LineChart graphMain;
     RoomDB db;
@@ -73,15 +78,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         db = RoomDB.getInstance(getApplicationContext());
         hazDao = db.hazDao();
-
         children = findViewById(R.id.childrenProfile);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         graphMain = findViewById(R.id.graphMain);
         Intent intent = getIntent();
         activeChildId = intent.getStringExtra("Child");
+        if(intent.getBooleanExtra("Refresh",false)){
+            changeActiveChild();
+        }
         changeActiveChild();
-
         children.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,19 +134,64 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         artikelSlider = findViewById(R.id.artikelSlider);
+        menuUtama = findViewById(R.id.menuUtama);
+        DatabaseReference menuRef = FirebaseDatabase.getInstance().getReference().child("MenuUtama");
+        menuUtama.setLayoutManager(new GridLayoutManager(this,2));
+
+        FirebaseRecyclerOptions<MenuModel> options =
+                new FirebaseRecyclerOptions.Builder<MenuModel>()
+                        .setQuery(menuRef, MenuModel.class)
+                        .build();
+        FirebaseRecyclerAdapter<MenuModel, MainActivity.MenuViewHolder> adapter1 = new FirebaseRecyclerAdapter<MenuModel, MainActivity.MenuViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull MainActivity.MenuViewHolder holder, int position, @NonNull MenuModel model) {
+
+                holder.menuName.setText(model.getName());
+                Picasso.get().load(model.getImage()).into(holder.menuImage);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String id_menu = getRef(holder.getAbsoluteAdapterPosition()).getKey();
+                        Intent detail = new Intent(MainActivity.this, MenuDetail.class);
+                        detail.putExtra("id_menu", id_menu);
+                        startActivity(detail);
+
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public MainActivity.MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
+                MainActivity.MenuViewHolder viewHolder = new MainActivity.MenuViewHolder(view);
+                return viewHolder;
+            }
+        };
+
+        menuUtama.setAdapter(adapter1);
+        adapter1.startListening();
         final List<SlideModel> sliderArticle = new ArrayList<>();
 
         FirebaseDatabase.getInstance().getReference().child("Slider").addListenerForSingleValueEvent(new ValueEventListener() {
+            ArrayList<String> link = new ArrayList<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     sliderArticle.add(new SlideModel(data.child("url").getValue().toString(), ScaleTypes.FIT));
+                    link.add(data.child("link").getValue().toString());
                 }
                 artikelSlider.setImageList(sliderArticle, ScaleTypes.FIT);
                 artikelSlider.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onItemSelected(int i) {
-
+                        Intent intent = new Intent(getApplicationContext(), Article.class);
+                        intent.putExtra("Child",activeChildId);
+                        intent.putExtra("Slider",true);
+                        intent.putExtra("url",link.get(i));
+                        startActivity(intent);
+                        finish();
                     }
                 });
 
@@ -169,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                     new FirebaseRecyclerOptions.Builder<ChildModel>()
                             .setQuery(childRef, ChildModel.class)
                             .build();
-            FirebaseRecyclerAdapter<ChildModel, MainActivity.childViewHolder> adapter = new FirebaseRecyclerAdapter<ChildModel, childViewHolder>(options) {
+            FirebaseRecyclerAdapter<ChildModel, MainActivity.childViewHolder> adapter2 = new FirebaseRecyclerAdapter<ChildModel, childViewHolder>(options) {
                 @Override
                 protected void onBindViewHolder(@NonNull childViewHolder holder, int position, @NonNull ChildModel model) {
                     holder.childName.setText((model.getName()));
@@ -192,8 +243,8 @@ public class MainActivity extends AppCompatActivity {
                     return viewHolder;
                 }
             };
-            child_rv.setAdapter(adapter);
-            adapter.startListening();
+            child_rv.setAdapter(adapter2);
+            adapter2.startListening();
         }
 
         addChild.setOnClickListener(new View.OnClickListener() {
@@ -292,9 +343,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-        //Update Grafik
-
     }
 
     private void drawGraph() {
@@ -410,6 +458,16 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+    public static class MenuViewHolder extends  RecyclerView.ViewHolder{
+        TextView menuName;
+        ImageView menuImage;
+        public MenuViewHolder(@NonNull View itemView)
+        {
+            super(itemView);
+            menuName = itemView.findViewById(R.id.menuName);
+            menuImage = itemView.findViewById(R.id.menuImg);
+        }
     }
 }
 

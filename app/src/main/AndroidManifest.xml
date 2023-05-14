@@ -8,14 +8,20 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.NutriMo"
         tools:targetApi="26">
         <activity
+            android:name=".aboutApp"
+            android:exported="false" />
+        <activity
+            android:name=".edit_child_profile"
+            android:exported="false" />
+        <activity
             android:name=".periksa.detailHistory"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".periksa.NewHistory"
             android:exported="false" />

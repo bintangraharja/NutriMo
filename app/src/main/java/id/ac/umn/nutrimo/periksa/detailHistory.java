@@ -1,13 +1,27 @@
 package id.ac.umn.nutrimo.periksa;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
 import id.ac.umn.nutrimo.R;
+
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 public class detailHistory extends AppCompatActivity {
     ImageButton back;
     TextView dateCheck, heightCheck, weightCheck, ageCheck, hazCheck,whzCheck,growthStat,resultCheck;
+    AppCompatButton delete;
     private String checkId, childId;
     private DatabaseReference checkRef;
     @Override
@@ -35,6 +50,13 @@ public class detailHistory extends AppCompatActivity {
                 finish();
             }
         });
+        delete = findViewById(R.id.deleteHistory);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmation();
+            }
+        });
         dateCheck = findViewById(R.id.dateCheck);
         heightCheck = findViewById(R.id.heightCheck);
         weightCheck = findViewById(R.id.weightCheck);
@@ -46,6 +68,46 @@ public class detailHistory extends AppCompatActivity {
 
         RetrieveCheckDetail();
     }
+
+    private void confirmation() {
+        Dialog dialog = new Dialog(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View newView = (View) inflater.inflate(R.layout.confirmation, null);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(newView);
+        AppCompatButton noBtn = newView.findViewById(R.id.noBtn);
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        AppCompatButton yesBtn = newView.findViewById(R.id.yesBtn);
+        yesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkRef.child(checkId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(detailHistory.this, "Riwayat Periksa berhasil dihapus", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(detailHistory.this, "Riwayat Periksa gagal dihapus", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+    }
+
     private void RetrieveCheckDetail(){
         checkRef.child(checkId).addValueEventListener(new ValueEventListener() {
             @Override

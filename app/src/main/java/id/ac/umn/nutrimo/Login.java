@@ -77,11 +77,11 @@ public class Login extends AppCompatActivity {
                 password = String.valueOf(password_login.getText());
 
                 if(TextUtils.isEmpty(email)){
-                    Toast.makeText(Login.this, "Please enter your email",
+                    Toast.makeText(Login.this, "Masukkan email anda",
                             Toast.LENGTH_SHORT).show();
                 }
                 if(TextUtils.isEmpty(password)){
-                    Toast.makeText(Login.this, "Please enter your password",
+                    Toast.makeText(Login.this, "Masukkan kata sandi anda",
                             Toast.LENGTH_SHORT).show();
                 }
                 mAuth.signInWithEmailAndPassword(email, password)
@@ -91,13 +91,13 @@ public class Login extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Berhasil masuk", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
                                     // If sign in fails, display a message to the user.
-                                    Toast.makeText(Login.this, "Authentication failed.",
+                                    Toast.makeText(Login.this, "Email atau kata sandi anda salah",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }

@@ -11,4 +11,5 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="aboutapps">Nutrition Monitoring (Nutrimo) merupakan aplikasi sistem pakar untuk memonitor nutrisi atau gizi bayi dibawah 2 tahun dan memantau pertumbuhan bayi agar dapat terhindar dan mengantisipasi penyakit stunting.</string>
 </resources>

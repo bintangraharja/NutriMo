@@ -43,7 +43,11 @@ public class Article extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.articleWrapper,new recfragment()).commit();
         Intent intent = getIntent();
         activeChildId = intent.getStringExtra("Child");
-
+        boolean slider = intent.getBooleanExtra("Slider",false);
+        if(slider){
+            String url = intent.getStringExtra("url");
+            getSupportFragmentManager().beginTransaction().replace(R.id.articleWrapper, new detailArticle(url)).commit();
+        }
         artikel = findViewById(R.id.artikel);
         artikel.setOnClickListener(new View.OnClickListener() {
             @Override

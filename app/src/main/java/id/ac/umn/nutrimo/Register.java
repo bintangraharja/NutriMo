@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
-    EditText email_reg, password_reg;
+    EditText email_reg, password_reg, password_conf;
     Button btn_reg;
     FirebaseAuth mAuth;
     FirebaseUser user;
@@ -48,6 +48,7 @@ public class Register extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         email_reg = findViewById(R.id.email_reg);
         password_reg = findViewById(R.id.password_reg);
+        password_conf = findViewById(R.id.password_conf);
         btn_reg = findViewById(R.id.btn_reg);
         progressBar = findViewById(R.id.progressBar);
         back = findViewById(R.id.backLogin);
@@ -74,18 +75,31 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password;
+                String email, password, password_confirm;
                 email = String.valueOf(email_reg.getText());
                 password = String.valueOf(password_reg.getText());
-
+                password_confirm = String.valueOf(password_conf.getText());
                 if(TextUtils.isEmpty(email)){
-                    Toast.makeText(Register.this, "Enter Email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, "Masukkan email anda", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     return;
                 }
                 if(TextUtils.isEmpty(password)){
-                    Toast.makeText(Register.this, "Enter Email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, "Masukkan kata sandi anda", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     return;
                 }
+                if(TextUtils.isEmpty(password_confirm)){
+                    Toast.makeText(Register.this, "Masukkan ulang kata sandi anda", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    return;
+                }
+                if(!password.equals(password_confirm)){
+                    Toast.makeText(Register.this, "Kata sandi tidak sesuai", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    return;
+                }
+
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -95,7 +109,7 @@ public class Register extends AppCompatActivity {
                                     user = mAuth.getCurrentUser();
 
                                     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                                    mDatabase.child("Users").child(user.getUid()).child("username").setValue("test");
+                                    mDatabase.child("Users").child(user.getUid()).child("id").setValue(user.getUid());
                                     // Sign in success, update UI with the signed-in user's information
                                     Toast.makeText(Register.this, "Account Created",
                                             Toast.LENGTH_SHORT).show();
@@ -107,6 +121,7 @@ public class Register extends AppCompatActivity {
 
                                     Toast.makeText(Register.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
                                 }
                             }
 

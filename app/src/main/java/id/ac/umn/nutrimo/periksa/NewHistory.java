@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -117,6 +118,11 @@ public class NewHistory extends AppCompatActivity {
                    int ageYear = Period.between(birth.withDayOfMonth(birth.getDayOfMonth()),now.withDayOfMonth(now.getDayOfMonth())).getYears();
                    int ageMonth = Period.between(birth.withDayOfMonth(birth.getDayOfMonth()),now.withDayOfMonth(now.getDayOfMonth())).getMonths();
                    int age = (12 * ageYear) + ageMonth;
+                   if(age > 24){
+                       Toast.makeText(NewHistory.this, "Maaf, usia maksimal 24 bulan", Toast.LENGTH_SHORT).show();
+                       finish();
+                       return;
+                   }
                    double medianHaz = hazDao.getMedian(age, String.valueOf(childGender.getText()));
                    double height = Double.parseDouble(String.valueOf(heightToday.getText()));
                    double haz;

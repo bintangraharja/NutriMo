@@ -9,6 +9,7 @@ import id.ac.umn.nutrimo.R;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,8 +21,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -90,6 +93,7 @@ public class detailHistory extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(detailHistory.this, "Riwayat Periksa berhasil dihapus", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -109,9 +113,10 @@ public class detailHistory extends AppCompatActivity {
     }
 
     private void RetrieveCheckDetail(){
-        checkRef.child(checkId).addValueEventListener(new ValueEventListener() {
+        checkRef.child(checkId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot snapshot = task.getResult();
                 int age =  snapshot.child("age").getValue(Integer.class);
                 String date = snapshot.child("date").getValue().toString();
                 double haz_temp = (double) snapshot.child("haz").getValue(Double.class);
@@ -135,12 +140,6 @@ public class detailHistory extends AppCompatActivity {
                 whzCheck.setText(String.valueOf(whz));
                 growthStat.setText(heightStat +" \u0026 "+nutri);
                 resultCheck.setText(result);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }

@@ -119,8 +119,11 @@ public class NewHistory extends AppCompatActivity {
                    int ageMonth = Period.between(birth.withDayOfMonth(birth.getDayOfMonth()),now.withDayOfMonth(now.getDayOfMonth())).getMonths();
                    int age = (12 * ageYear) + ageMonth;
                    if(age > 24){
-                       Toast.makeText(NewHistory.this, "Maaf, usia maksimal 24 bulan", Toast.LENGTH_SHORT).show();
-                       finish();
+                       dateToday.setError("Maaf, maksimal usia 24 bulan");
+                       return;
+                   }
+                   if(age < 0){
+                       dateToday.setError("Maaf, minimal usia 0 bulan");
                        return;
                    }
                    double medianHaz = hazDao.getMedian(age, String.valueOf(childGender.getText()));

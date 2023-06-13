@@ -1,5 +1,6 @@
 package id.ac.umn.nutrimo.periksa;
 
+import id.ac.umn.nutrimo.AddChildProfile;
 import id.ac.umn.nutrimo.ChildModel;
 import id.ac.umn.nutrimo.R;
 import id.ac.umn.nutrimo.RoomDB;
@@ -91,20 +92,23 @@ public class NewHistory extends AppCompatActivity {
         weightToday = findViewById(R.id.weightToday);
         heightToday = findViewById(R.id.heightToday);
 
-        dateToday.setOnClickListener(new View.OnClickListener() {
+        dateToday.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
-                dpDialog = new DatePickerDialog(NewHistory.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        dateToday.setText(i2 + "/" + (i1 + 1) + "/" + i);
-                    }
-                }, mYear, mMonth, mDay);
-                dpDialog.show();
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    final Calendar c = Calendar.getInstance();
+                    int mYear = c.get(Calendar.YEAR);
+                    int mMonth = c.get(Calendar.MONTH);
+                    int mDay = c.get(Calendar.DAY_OF_MONTH);
+                    dpDialog = new DatePickerDialog(NewHistory.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                            dateToday.setText(i2 + "/" + (i1 + 1) + "/" + i);
+                        }
+                    }, mYear, mMonth, mDay);
+                    dpDialog.show();
+                }
+
             }
         });
         save = findViewById(R.id.saveHistory);
@@ -122,8 +126,8 @@ public class NewHistory extends AppCompatActivity {
                        dateToday.setError("Maaf, maksimal usia 24 bulan");
                        return;
                    }
-                   if(age < 0){
-                       dateToday.setError("Maaf, minimal usia 0 bulan");
+                   if(age < 1) {
+                       dateToday.setError("Maaf, minimal usia 1 bulan");
                        return;
                    }
                    double medianHaz = hazDao.getMedian(age, String.valueOf(childGender.getText()));

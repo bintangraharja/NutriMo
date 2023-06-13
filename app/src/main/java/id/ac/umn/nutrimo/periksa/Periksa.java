@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -75,6 +76,13 @@ public class Periksa extends AppCompatActivity {
         }
         Intent intent = getIntent();
         activeChildId = intent.getStringExtra("Child");
+        if(activeChildId == null){
+            Intent intents = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intents);
+            finish();
+            Toast.makeText(getApplicationContext(), "Silahkan pilih profil anak", Toast.LENGTH_SHORT).show();
+            return;
+        }
         setting = findViewById(R.id.setting);
         setting.setOnClickListener(new View.OnClickListener() {
             @Override

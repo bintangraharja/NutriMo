@@ -67,20 +67,22 @@ public class AddChildProfile extends AppCompatActivity {
             }
         });
 
-        childBirth.setOnClickListener(new View.OnClickListener() {
+        childBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
-                dpDialog = new DatePickerDialog(AddChildProfile.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        childBirth.setText(i2 + "/" + (i1 + 1) + "/" + i);
-                    }
-                }, mYear, mMonth, mDay);
-                dpDialog.show();
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    final Calendar c = Calendar.getInstance();
+                    int mYear = c.get(Calendar.YEAR);
+                    int mMonth = c.get(Calendar.MONTH);
+                    int mDay = c.get(Calendar.DAY_OF_MONTH);
+                    dpDialog = new DatePickerDialog(AddChildProfile.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                            childBirth.setText(i2 + "/" + (i1 + 1) + "/" + i);
+                        }
+                    }, mYear, mMonth, mDay);
+                    dpDialog.show();
+                }
 
             }
         });
@@ -105,7 +107,7 @@ public class AddChildProfile extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference().child("Childs").child(user.getUid()).child(pushId).setValue(child).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(getApplicationContext(),"Profil anak berhasil diperbaharui",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Profil anak berhasil ditambahkan",Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     });

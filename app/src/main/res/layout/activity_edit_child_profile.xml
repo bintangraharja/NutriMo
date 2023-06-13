@@ -5,193 +5,200 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".edit_child_profile">
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageButton
-                android:id="@+id/backSetting"
-                android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="10dp"
-                android:background="@null"
-                app:srcCompat="@drawable/icons8_left_arrow_32" />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/backSetting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@null"
+                    app:srcCompat="@drawable/icons8_left_arrow_32" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/editChild"
-                android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/editChild"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/fui_transparent"/>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Edit"
-                android:gravity="center"
+                android:text="Nama Lengkap"
+                android:textSize="20dp"
+                android:textColor="@color/black"
                 android:layout_marginTop="10dp"
-                android:background="@color/fui_transparent"/>
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"/>
+            <EditText
+                android:id="@+id/childName"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:ems="10"
+                android:hint="Masukkan nama anak anda"
+                android:inputType="text"
+                android:enabled="false"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:paddingStart="5dp"
+                android:background="@drawable/custom_child_input"
+                />
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tanggal Lahir"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"/>
+            <EditText
+                android:id="@+id/childBirth"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:ems="10"
+                android:hint="Masukkan tanggal lahir anak anda"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:paddingStart="5dp"
+                android:background="@drawable/custom_child_input"
+                android:enabled="false"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jenis Kelamin"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"/>
+            <RadioGroup
+                android:id="@+id/chooseGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                >
+                <RadioButton
+                    android:id="@+id/chooseBoy"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Laki-laki"
+                    android:textSize="20dp"
+                    android:onClick="chooseGender"
+                    android:enabled="false"
+                    android:textColor="@color/black"
+                    />
+                <RadioButton
+                    android:id="@+id/chooseGirl"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Perempuan"
+                    android:textSize="20dp"
+                    android:onClick="chooseGender"
+                    android:enabled="false"
+                    android:textColor="@color/black"
+                    />
+            </RadioGroup>
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Berat Badan saat lahir (Kg)"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"/>
+            <EditText
+                android:id="@+id/childWeight"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:ems="10"
+                android:hint="Berat badan anak anda"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:paddingStart="5dp"
+                android:background="@drawable/custom_child_input"
+                android:enabled="false"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Panjang Badan saat lahir (Cm)"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"/>
+            <EditText
+                android:id="@+id/childHeight"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:ems="10"
+                android:hint="Panjang badan anak anda"
+                android:inputType="numberDecimal"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:paddingStart="5dp"
+                android:background="@drawable/custom_child_input"
+                android:enabled="false"
+                android:textColor="@color/black"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/saveChild"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Simpan"
+                android:textAlignment="center"
+                android:background="@drawable/child_bkg"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:visibility="gone"/>
+
 
         </LinearLayout>
+    </ScrollView>
 
-
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Nama Lengkap"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
-        <EditText
-            android:id="@+id/childName"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:ems="10"
-            android:hint="Masukkan nama anak anda"
-            android:inputType="text"
-            android:enabled="false"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:paddingStart="5dp"
-            android:background="@drawable/custom_child_input"
-            />
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tanggal Lahir"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
-        <EditText
-            android:id="@+id/childBirth"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:ems="10"
-            android:hint="Masukkan tanggal lahir anak anda"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:paddingStart="5dp"
-            android:background="@drawable/custom_child_input"
-            android:enabled="false"
-            android:textColor="@color/black"/>
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Jenis Kelamin"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
-        <RadioGroup
-            android:id="@+id/chooseGender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-           >
-            <RadioButton
-                android:id="@+id/chooseBoy"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Laki-laki"
-                android:textSize="20dp"
-                android:onClick="chooseGender"
-                android:enabled="false"
-                android:textColor="@color/black"
-                />
-            <RadioButton
-                android:id="@+id/chooseGirl"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Perempuan"
-                android:textSize="20dp"
-                android:onClick="chooseGender"
-                android:enabled="false"
-                android:textColor="@color/black"
-                />
-        </RadioGroup>
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Berat Badan saat lahir (Kg)"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
-        <EditText
-            android:id="@+id/childWeight"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:ems="10"
-            android:hint="Berat badan anak anda"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:paddingStart="5dp"
-            android:background="@drawable/custom_child_input"
-            android:enabled="false"
-            android:textColor="@color/black"/>
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Panjang Badan saat lahir (Cm)"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
-        <EditText
-            android:id="@+id/childHeight"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:ems="10"
-            android:hint="Panjang badan anak anda"
-            android:inputType="numberDecimal"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:paddingStart="5dp"
-            android:background="@drawable/custom_child_input"
-            android:enabled="false"
-            android:textColor="@color/black"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/saveChild"
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Simpan"
-            android:textAlignment="center"
-            android:background="@drawable/child_bkg"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:visibility="gone"/>
-
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

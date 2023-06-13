@@ -57,54 +57,62 @@
         android:layout_marginBottom="65dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center|center_vertical"
                 android:text="Grafik Perkembangan PB/U"
                 android:textColor="@color/black"
-                android:gravity="center|center_vertical"
-                android:layout_marginTop="10dp"
                 android:textSize="18dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/graphHAZ"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginHorizontal="30dp"/>
+                android:layout_marginBottom="20dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center|center_vertical"
                 android:text="Grafik Perkembangan BB/TB"
                 android:textColor="@color/black"
-                android:gravity="center|center_vertical"
-                android:layout_marginTop="10dp"
                 android:textSize="18dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/graphWHZ"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginHorizontal="30dp"/>
+                android:layout_marginBottom="20dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center|center_vertical"
                 android:text="Riwayat Periksa Tumbuh Kembang"
                 android:textColor="@color/black"
-                android:gravity="center|center_vertical"
-                android:layout_marginTop="10dp"
                 android:textSize="18dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/history_rv"
                 android:layout_width="match_parent"

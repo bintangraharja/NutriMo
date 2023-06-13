@@ -90,20 +90,22 @@ public class edit_child_profile extends AppCompatActivity {
             }
         });
 
-        childBirth.setOnClickListener(new View.OnClickListener() {
+        childBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
-                dpDialog = new DatePickerDialog(edit_child_profile.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        childBirth.setText(i2 + "/" + (i1 + 1) + "/" + i);
-                    }
-                }, mYear, mMonth, mDay);
-                dpDialog.show();
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    final Calendar c = Calendar.getInstance();
+                    int mYear = c.get(Calendar.YEAR);
+                    int mMonth = c.get(Calendar.MONTH);
+                    int mDay = c.get(Calendar.DAY_OF_MONTH);
+                    dpDialog = new DatePickerDialog(edit_child_profile.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                            childBirth.setText(i2 + "/" + (i1 + 1) + "/" + i);
+                        }
+                    }, mYear, mMonth, mDay);
+                    dpDialog.show();
+                }
 
             }
         });
